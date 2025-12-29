@@ -1,0 +1,538 @@
+/* Styles de la bannière / en-tête */
+.banniere {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: clamp(56px, 8vh, 72px); /* hauteur par défaut, ajustée par JS si nécessaire */
+	background: #e8dbdb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+	box-shadow: none;
+	transition: box-shadow 200ms ease, backdrop-filter 200ms ease;
+}
+
+.banniere.scrolled {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+	backdrop-filter: blur(2px);
+}
+
+.banniere img#France {
+	height: clamp(28px, 5vh, 44px);
+	width: auto;
+	margin-left: 22px; /* déplacé légèrement vers la droite */
+	position: absolute;
+	left: 20px; /* augmenté de 12px */
+	border-radius: 6px; /* léger arrondi */
+	overflow: hidden;
+	object-fit: cover;
+	transition: border-radius 150ms ease, transform 150ms ease;
+}
+
+.banniere img#PhiLogo {
+	height: clamp(40px, 6vh, 60px);
+	width: auto;
+	position: relative;
+}
+
+/* Assurer que le contenu principal n'est pas caché sous la bannière fixe */
+body {
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	margin: 0;
+	padding: 0;
+}
+
+/* Arrière-plan fixe global sous tous les éléments utilisant fondbleuelec.png */
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -9998; /* derrière presque tout (la bannière a 9999) */
+	background-image: url('../images/fondbleuelec.png');
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: cover;
+	will-change: transform;
+	pointer-events: none;
+}
+
+.page-content {
+	/* classe utilitaire pour le contenu principal : JS définira le padding supérieur égal à la hauteur de la bannière */
+	padding-top: 0;
+}
+
+/* Vidéo héros qui remplit la fenêtre d'affichage initiale mais défile avec la page */
+.hero {
+	position: relative;
+	width: 100%;
+	/* la hauteur sera hauteur de la fenêtre moins bannière ; JS définira --banner-height si nécessaire */
+	height: calc(100vh - 72px);
+	overflow: hidden;
+}
+
+.hero-video {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: cover;
+}
+
+/* Overlay (voile) pour assombrir légèrement la vidéo */
+.hero::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0,0.28); /* ajuster l'opacité/couleur au goût */
+	pointer-events: none;
+}
+
+/* Texte centré sur la vidéo héros */
+.hero-content {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #ffffff;
+	z-index: 3; /* au-dessus de l'overlay */
+	padding: 0 16px;
+}
+
+.hero-content h1 {
+	font-family: 'airstrike', sans-serif;
+	font-size: clamp(63px, 12vw, 144px);
+	margin: 6px 0;
+	letter-spacing: 2px;
+	color: rgb(0, 76, 255);
+}
+
+.hero-content h2 {
+	font-family: 'Inter', Arial, sans-serif;
+	font-size: clamp(18px, 3vw, 28px);
+	margin: 0;
+	font-weight: 600;
+}
+
+.separator {
+	position: absolute;
+	width: 100%;
+}
+.hero-content2 {
+	width: 100%;
+	padding: 3.5rem 0;
+	position: relative;
+	text-align: center;
+	background-color: #0049bf;
+  	font-family: 'Inter', Arial, sans-serif;
+	font-size: clamp(12px, 2.2vw, 18px);
+	line-height: 1.4;
+	color: rgba(255,255,255,0.95);
+	font-weight: 600;
+}
+
+/* Arrière-plan de motif fixe derrière la bannière et la page */
+.page-content { position: relative; z-index: 2; }
+
+#bslogo {
+	display: block; 
+	margin: 2rem auto;	/* espacement minimal au-dessus ; supprimer l'écart en bas */
+	margin-bottom: 0;
+	margin-top: 17rem;            
+	width: clamp(96px, 18vw, 220px);/* dimensionnement responsive : min 96px, préférer 18vw, max 220px */
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+
+
+/* Wrapper et légende du logo bs */
+.bslogo-wrap {
+	text-align: center; /* centrer l'image et la légende */
+	/* écart supérieur responsive */
+	margin: clamp(12px, 6vh, 72px) auto 8px;
+	max-width: 780px;
+}
+
+.bslogo-caption {
+	margin-top: 0;
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: 700;
+	font-size: clamp(11px, 1.8vw, 16px);
+	color: rgba(255,255,255,0.92);
+	letter-spacing: clamp(0.4px, 0.12vw, 1px);
+	text-transform: uppercase;
+}
+
+/* Étiquette encadrée centrée NOTRE ÉQUIPE entre le logo et les cartes */
+.team-label {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: clamp(10px, 2.2vh, 28px) 0; /* espacement vertical responsive */
+	padding: 0 6vw; /* garder un peu de padding latéral sur petits écrans */
+	box-sizing: border-box;
+}
+
+.team-label-inner {
+	display: inline-block;
+	padding: clamp(8px, 1.2vh, 14px) clamp(14px, 3.2vw, 26px);
+	border: 1px solid rgba(255,255,255,0.14);
+	border-radius: 999px; 
+	background: rgba(255,255,255,0.03);
+	color: rgba(255,255,255,0.95);
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: 700;
+	font-size: clamp(11px, 1.8vw, 14px);
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	box-shadow: 0 4px 14px rgba(2,6,23,0.06);
+	backdrop-filter: blur(4px);
+}
+
+/* Animation d'entrée du logo */
+#bslogo {
+	opacity: 0;
+	transform: translateY(12px) scale(0.992);
+	filter: blur(6px);
+	will-change: opacity, transform, filter;
+	transition: opacity 1100ms cubic-bezier(.2,.9,.3,1) 120ms, transform 1100ms cubic-bezier(.2,.9,.3,1) 120ms, filter 900ms ease 120ms;
+}
+
+.bslogo--enter {
+	opacity: 1 !important;
+	transform: translateY(0) scale(1) !important;
+	filter: blur(0) !important;
+}
+
+/* Conteneur de ligne de cartes */
+.cards-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  	gap: clamp(24px, 5vw, 80px);
+  	padding: clamp(24px, 6vw, 64px);
+  	max-width: 1200px;
+	justify-content: space-between; /* répartir les cartes */
+	gap: 80px; /* écart plus large pour 'écarter' les cartes */
+	padding: 32px 6vw;
+	align-items: center;
+	min-height: 60vh;
+	max-width: calc(3 * 280px + 2 * 80px); /* assurer que le conteneur s'adapte aux trois cartes + écarts */
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.card {
+	/* Correspondre au style de pilule encadrée utilisé par les étiquettes équipe/support */
+	background: rgba(255,255,255,0.03); /* subtle translucent fill */
+	border: 1px solid rgba(255, 255, 255, 0.7);
+	box-shadow: 0 10px 30px rgba(2,6,23,0.20), 0 4px 12px rgba(11,97,255,0.08);
+	border-radius: 16px; /* arrondi des coins */
+	width: clamp(240px, 90%, 280px);
+	margin: 0 auto;
+	aspect-ratio: 2 / 3; /* garder les proportions portrait */
+	display: block;
+	overflow: hidden; /* clipper les séparateurs aux coins arrondis de la carte pour que la largeur visible soit cohérente */
+	backdrop-filter: blur(6px);
+}
+
+/* Segments de carte : premier segment = 1/3 hauteur ; les 4 restants divisent les 2/3 restants également */
+.card-segments {
+	display: grid;
+	grid-template-rows: 1fr repeat(4, 1fr); /* lignes égales temporaires ; nous calculerons avec des fractions ci-dessous */
+	height: 100%;
+	width: 100%;
+}
+
+.card .segment {
+	position: relative;
+	background: transparent;
+}
+
+/* Séparateurs entre segments : lignes blanches de 1px sauf sur très petits écrans */
+.card .segment:not(:last-child)::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 1px; /* uniform thin line */
+	background: rgba(255,255,255,0.92);
+	transform-origin: center;
+	box-shadow: none;
+	pointer-events: none;
+}
+
+/* Hauteurs précises : faire le premier segment 1/3, les quatre restants chacun 1/6 (puisque 2/3 / 4 = 1/6) */
+.card-segments {
+	grid-template-rows: 33.3333% 16.6667% 16.6667% 16.6667% 16.6667%;
+}
+
+/* Optionnellement colorer les bandes légèrement différemment pour une séparation visuelle — overlay subtil */
+.card .seg-1,
+.card .seg-2,
+.card .seg-3,
+.card .seg-4,
+.card .seg-5 {
+	/* garder les segments visuellement subtils et cohérents pour que les séparateurs se lisent comme des lignes fines égales */
+	background: rgba(255,255,255,0.01);
+}
+
+/* Image portrait dans le segment supérieur */
+.card .seg-1 { padding: 0; }
+.card .seg-1 > .card-portrait {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center center;
+	border-top-left-radius: 16px; /* match card rounding */
+	border-top-right-radius: 16px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+/* Texte de pied de page dans le dernier segment */
+.card .seg-5 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 98, 255, 0.45);
+}
+.card .card-footer {
+	font-family: 'nougat', sans-serif;
+	font-weight: 700;
+	color: rgba(255,255,255,0.95);
+	font-size: clamp(22.3px, 3.0vw, 30px);
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+}
+
+/* Style des numéros des segments moyens */
+.card .card-mid {
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: 700;
+	color: rgba(255,255,255,0.95);
+	font-size: clamp(12px, 1.6vw, 16px);
+	letter-spacing: 2px;
+	text-transform: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+/* Icône trophée dans les segments moyens */
+.card .seg-3 img.icon-trophy {
+  width: 10%;
+  height: auto;
+  object-fit: contain;
+}
+
+.card .seg-4 img.pin {
+  width: 22%;
+  height: auto;
+  object-fit: contain;
+}
+
+
+/* Images dans les cartes : garder la longueur verticale (remplir hauteur), préserver le rapport d'aspect */
+.card img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	box-shadow: none; /* l'ombre de la carte est maintenant sur le conteneur */
+	object-fit: cover;
+	object-position: center top;
+	border-radius: inherit; /* garder l'image arrondie avec la carte */
+}
+
+
+.card:hover {
+	/* garder les cartes visuellement interactives mais ne les déplacer pas au survol */
+	transform: none;
+	box-shadow: 0 18px 40px rgba(2,6,23,0.18),
+							0 6px 20px rgba(11,97,255,0.08);
+}
+
+
+.tiktok-btn {
+  	width: clamp(48px, 10vw, 64px);
+  	height: clamp(48px, 10vw, 64px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: 1px solid rgba(255,255,255,0.14);
+	border-radius: 12px;
+	background: rgba(255,255,255,0.03);
+	color: rgba(255,255,255,0.95);
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: 700;
+	font-size: clamp(11px, 1.8vw, 14px);
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	box-shadow: 0 4px 14px rgba(2,6,23,0.06);
+	backdrop-filter: blur(4px);
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+
+.tiktok-btn i {
+  color: #fff;
+  font-size: clamp(20px, 5vw, 28px);
+}
+
+.tiktok-btn:hover {
+	background-color: rgba(0, 98, 255, 0.45);
+}
+
+.tiktok-btn2 {
+  	width: clamp(48px, 10vw, 64px);
+  	height: clamp(48px, 10vw, 64px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: 1px solid rgba(255,255,255,0.14);
+	border-radius: 12px;
+	background: rgba(255,255,255,0.03);
+	color: rgba(255,255,255,0.95);
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: 700;
+	font-size: clamp(11px, 1.8vw, 14px);
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	box-shadow: 0 4px 14px rgba(2,6,23,0.06);
+	backdrop-filter: blur(4px);
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.tiktok-btn2 i {
+  color: #fff;
+  font-size: clamp(20px, 5vw, 28px);
+}
+
+.tiktok-btn2:hover {
+	background-color: rgba(0, 98, 255, 0.45);
+} 
+
+/* Conteneur du bouton TikTok, centré */
+.tiktok-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: clamp(20px, 4vh, 40px) 0;
+	padding: 0;
+	box-sizing: border-box;
+	gap: 20px;
+}
+
+
+/* Déclarations de polices */
+
+@font-face {
+  font-family: 'Super Crawler';
+  src: url('../fonts/Super%20Crawler.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'airstrike';
+  src: url('../fonts/airstrike.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'nougat';
+  src: url('../fonts/nougat.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* Très petits mobiles (anciens, petits Android) */
+@media (max-width: 360px) {
+	.hero-content h1 { font-size: clamp(40px, 16vw, 80px); }
+	.hero-content h2 { font-size: clamp(12px, 5vw, 18px); }
+	.hero-content2 { font-size: clamp(10px, 4vw, 12px); padding: 2rem 0; }
+	.cards-row { gap: 20px; padding: 12px 2vw; justify-content: center; min-height: 40vh; }
+	.card { max-width: 100%; aspect-ratio: 4 / 5; margin: 0 auto; width: 95%; }
+	.card .card-footer { font-size: clamp(12px, 3vw, 16px); }
+	.card .card-mid { font-size: clamp(10px, 2.5vw, 12px); }
+	.tiktok-btn { width: 40px; height: 40px; }
+	.tiktok-btn i { font-size: 18px; }
+	.tiktok-btn2 { width: 40px; height: 40px; }
+	.tiktok-btn2 i { font-size: 18px; }
+	.team-label-inner { padding: 6px 10px; font-size: 10px; }
+}
+
+/* Mobiles standards */
+@media (max-width: 480px) {
+	.hero-content h1 { font-size: clamp(45px, 14vw, 90px); }
+	.hero-content h2 { font-size: clamp(14px, 4vw, 20px); }
+	.hero-content2 { font-size: clamp(11px, 3vw, 14px); padding: 2.5rem 0; }
+	.cards-row { gap: 25px; padding: 16px 3vw; justify-content: center; min-height: 50vh; }
+	.card { border-radius: 12px; margin: 0 auto; width: 90%; max-width: 280px; }
+	.card .card-footer { font-size: clamp(13px, 2.5vw, 17px); }
+	.card .card-mid { font-size: clamp(11px, 2vw, 13px); }
+	.tiktok-btn { width: 44px; height: 44px; }
+	.tiktok-btn i { font-size: 20px; }
+	.tiktok-btn2 { width: 44px; height: 44px; }
+	.tiktok-btn2 i { font-size: 20px; }
+	.team-label { padding: 0 3vw; }
+	.team-label-inner { font-size: clamp(11px, 2.5vw, 13px); }
+}
+
+/* Mobiles larges / petites tablettes */
+@media (max-width: 768px) {
+	.hero-content h1 { font-size: clamp(50px, 12vw, 110px); }
+	.hero-content h2 { font-size: clamp(16px, 3.5vw, 22px); }
+	.hero-content2 { font-size: clamp(12px, 2.5vw, 16px); padding: 3rem 0; }
+	#bslogo { margin-top: 12rem; width: clamp(85px, 18vw, 180px); }
+	.cards-row { gap: 40px; padding: 20px 4vw; justify-content: center; }
+	.card { aspect-ratio: 2.5 / 3; }
+	.team-label { padding: 0 4vw; }
+	.team-label-inner { font-size: clamp(12px, 2vw, 14px); }
+	.tiktok-btn { width: 48px; height: 48px; }
+	.tiktok-btn i { font-size: 22px; }
+	.tiktok-btn2 { width: 48px; height: 48px; }
+	.tiktok-btn2 i { font-size: 22px; }
+}
+
+/* Tablettes / petits ordinateurs portables */
+@media (max-width: 1024px) {
+	.hero-content h1 { font-size: clamp(55px, 10vw, 125px); }
+	.hero-content h2 { font-size: clamp(18px, 3vw, 24px); }
+	.hero-content2 { font-size: clamp(13px, 2vw, 17px); }
+	.cards-row { gap: 50px; padding: 24px 5vw; }
+	.card { aspect-ratio: 2 / 3; }
+	.team-label-inner { font-size: clamp(13px, 1.8vw, 15px); }
+}
+
+/* Grands écrans / bureaux larges */
+@media (min-width: 1440px) {
+	.cards-row { gap: 120px; max-width: calc(3 * 320px + 2 * 120px); }
+	.hero-content h1 { font-size: clamp(75px, 7vw, 180px); }
+	.hero-content h2 { font-size: clamp(22px, 2vw, 35px); }
+	.hero-content2 { font-size: clamp(15px, 1.5vw, 22px); }
+	.card { max-width: 320px; }
+}
