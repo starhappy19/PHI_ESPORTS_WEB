@@ -98,15 +98,23 @@ function adjustHeroHeight() {
 // Sélection de la vidéo par son ID
 const video = document.getElementById('hero-video');
 
-// On essaye de lancer la vidéo automatiquement
+// Essayer de lancer la vidéo automatiquement
 video.play().catch((error) => {
     // Si iOS bloque l'autoplay (même muted), cette erreur sera attrapée
     console.log("Autoplay bloqué sur iOS, l'utilisateur doit appuyer sur la vidéo pour la lancer.");
 });
 
-// Optionnel : ajouter un écouteur pour démarrer la vidéo quand l'utilisateur touche l'écran
+// Ajouter un écouteur pour démarrer la vidéo dès le premier contact utilisateur
+document.addEventListener('touchstart', () => {
+    if (video.paused) {
+        video.play().catch(() => {
+            console.log("La vidéo n'a pas pu démarrer automatiquement.");
+        });
+    }
+}, { once: true });
+
+// Optionnel : permettre de cliquer sur la vidéo pour la lancer
 video.addEventListener('click', () => {
-    // Si la vidéo n'est pas en train de jouer, on la lance
     if (video.paused) {
         video.play();
     }
